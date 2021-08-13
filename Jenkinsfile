@@ -54,12 +54,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -t hello-final:TESTING-1.0.${BUILD_NUMBER}-${GIT_COMMIT} .'
+                sh 'docker build -t hello-final:CICD-1.0.${BUILD_NUMBER}-${GIT_COMMIT} .'
             }
         }
         stage('Security') {
             steps {
-                sh 'trivy image --format=json --output=trivy-image.json hello-final:TESTING-1.0.${BUILD_NUMBER}-${GIT_COMMIT}'
+                sh 'trivy image --format=json --output=trivy-image.json hello-final:CICD-1.0.${BUILD_NUMBER}-${GIT_COMMIT}'
             }
             post {
                 always {
@@ -69,6 +69,15 @@ pipeline {
                                             trivy(pattern: '*.json')
                                     ]
                     )
+                }
+            }
+        }
+
+        stage('Delivery') {
+            steps {
+                withDockerRegistry(credentialsId: 'gitlab-registry', url: 'http://10.250.5.19:5050') {
+                    sh 'docker tag hello-final:CICD-1.0.${BUILD_NUMBER}-${GIT_COMMIT} 10.250.5.19:5050/amoresj/hello-final:CICD-1.0.${BUILD_NUMBER}-${GIT_COMMIT}'
+                    sh 'docker push 10.250.5.19:5050/amoresj/hello-final:CICD-1.0.${BUILD_NUMBER}-${GIT_COMMIT}'
                 }
             }
         }
