@@ -78,7 +78,7 @@ pipeline {
 
         stage('Delivery') {
             steps {
-                withDockerRegistry(credentialsId: 'gitlab-registry', url: 'http://10.250.5.19:5050') {
+                withDockerRegistry(credentialsId: 'hello-final-registry', url: 'http://10.250.5.19:5050') {
                     sh 'docker tag hello-final:CICD-1.0.${BUILD_NUMBER}-${GIT_COMMIT} 10.250.5.19:5050/amoresj/hello-final:CICD-1.0.${BUILD_NUMBER}-${GIT_COMMIT}'
                     sh 'docker push 10.250.5.19:5050/amoresj/hello-final:CICD-1.0.${BUILD_NUMBER}-${GIT_COMMIT}'
                 }
