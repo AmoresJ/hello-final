@@ -23,8 +23,8 @@ pipeline {
             failFast true
             parallel {
                 stage('SonarQube analysis') {
+                    when { expression { false } }
                     steps {
-                        when { expression { false } }
                         withSonarQubeEnv('SonarQube local') {
                             // Will pick the global server connection you have configured
                             sh './gradlew sonarqube'
@@ -59,7 +59,7 @@ pipeline {
         }
         stage('Security') {
             steps {
-                sh 'trivy image --format=json --output=trivy-image.json hello-final:main-1.0.${BUILD_NUMBER}-${GIT_COMMIT}'
+                sh 'trivy image --format=json --output=trivy-image.json hello-final:TESTING-1.0.${BUILD_NUMBER}-${GIT_COMMIT}'
             }
             post {
                 always {
