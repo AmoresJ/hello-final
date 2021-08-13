@@ -48,6 +48,7 @@ sonarqube {
 	}
 }
 pitest {
+	pitestVersion = '1.6.7'
 	junit5PluginVersion = '0.12'
 	outputFormats = ['XML']
 }
