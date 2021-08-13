@@ -26,11 +26,16 @@ pipeline {
             failFast true
             parallel {
                 stage('SonarQube analysis') {
-                    when { expression { false } }
                     steps {
                         withSonarQubeEnv('SonarQube local') {
-                            // Will pick the global server connection you have configured
-                            sh './gradlew sonarqube'
+                            script {
+                                try {
+                                    sh './gradlew sonarqube'
+                                }
+                                catch (exc) {
+                                    echo 'Error en análisis SonarQube'
+                                }
+                            }
                         }
                     }
                 }
