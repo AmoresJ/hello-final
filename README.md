@@ -24,4 +24,6 @@ Estas pruebas se han automatizado en el **Jenkinsfile**. Adicionalmente, en la f
 * [SpotBugs](https://spotbugs.github.io/) Para detectar erorres, o partes del código que puedan llegar a serlo potencialmente.
 * Pitest
 
+Se incluye también en la fase de análisis del pipeline la ejecución de pruebas con [Sonarqube](https://www.sonarqube.org/), también para el análisis de la calidad y seguridad del código, en paralelo a la fase de QA. **Nota:** Introduzco un try-catch en esta fase porque no pude probarlo correctamente con mi instalación local. Queda pendiente de modificar.
+
 Finalmente, tras la construcción de la imagen de docker, se comprueba que no tenga vulnerabilidades o problemas de configuración utilizando [Trivy](https://github.com/aquasecurity/trivy)
