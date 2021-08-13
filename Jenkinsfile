@@ -5,6 +5,9 @@ pipeline {
         ansiColor('xterm')
         timestamps()
     }
+    tools {
+        jdk 'JDK16'
+    }
     stages {
         stage('Build') {
             steps {
