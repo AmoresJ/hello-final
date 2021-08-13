@@ -1,4 +1,4 @@
-**Versión testing de la práctica final del curso de DevOps.**
+**Versión CICD de la práctica final del curso de DevOps.**
 
 Se trata de una aplicación de SpringBoot con un único servicio REST que responde un mensaje de bienvenida en la url: http://localhost:8081
 
@@ -14,14 +14,5 @@ También se incluye un *Jenkinsfile* con el cual se automatiza este proceso desd
 
 ---
 
-En esta versión se han añadido pruebas de varios tipos:
-* Pruebas de mutación con [Pitest](http://pitest.org/). Pueden ejecutarse con el comando: `./gradlew pitest`
-* Pruebas unitarias con [JUnit5](https://junit.org/junit5/). Pueden ejecutarse con el comando: `./gradlew test`
-* Pruebas de cobertura de código con [JaCoCo](https://www.eclemma.org/jacoco/).
+En esta versión, además de las pruebas añadidas al branch "testing", se añade en el **Jenkinsfile** integración y entrega/despliegue continuos (CI-CD) apoyándose en GitLab. Cada vez que se haga un commit se iniciará el pipeline en Jenkins, y, si se ejecuta correctamente, la imagen generada se subirá al registry de Gitlab, desde donde se podrá descargar mediante `docker pull` y ejecutar con `docker compose` desde cualquier máquina que tenga acceso a este repositorio.
 
-Estas pruebas se han automatizado en el **Jenkinsfile**. Adicionalmente, en la fase de *QA* se realiza un `./gradlew check` cuyos resultados se recogen mediante el plugin [WarningsNG](https://plugins.jenkins.io/warnings-ng/), para analizar la calidad y seguridad del código. Los datos recogidos son analizados a su vez por los siguientes plugins:
-* [PMD](https://pmd.github.io/) Para el análisis de la calidad del código.
-* [SpotBugs](https://spotbugs.github.io/) Para detectar erorres, o partes del código que puedan llegar a serlo potencialmente.
-* Pitest
-
-Finalmente, tras la construcción de la imagen de docker, se comprueba que no tenga vulnerabilidades o problemas de configuración utilizando [Trivy](https://github.com/aquasecurity/trivy)
